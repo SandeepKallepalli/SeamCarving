@@ -1,6 +1,6 @@
 clear all
 close all
-colorImage=imresize(imread('../images/tower.jpg'),0.5);
+colorImage=imresize(imread('../seamImages/Photobombingbeach.jpg'),1);
 imshow(colorImage);
 M = imfreehand();
 % M=imellipse;
@@ -11,12 +11,12 @@ Image=rgb2gray(colorImage);
 OriginalImage=colorImage;
 OrigImage=colorImage;
 edgeImage=imgradient(rgb2gray(colorImage));
-edgeImage(BW==0)=-realmax;
+edgeImage(BW==0)=-1000;
 imshow(uint8(edgeImage));
 pause(10);
-for count=1:100
+for count=1:150
     edgeImage=imgradient(rgb2gray(colorImage));
-    edgeImage(BW==0)=-realmax;
+    edgeImage(BW==0)=-1000;
     [sizex,sizey]=size(edgeImage);
     mask(1,:)=edgeImage(1,:);
     animate=colorImage;
@@ -51,7 +51,7 @@ for count=1:100
     end
     colorImage(:,sizey,:)=[];
     BW(:,sizey,:)=[];
-    Image(:,sizey)=[];
+%     Image(:,sizey)=[];
     edgeImage(:,sizey)=[];
     mask(:,sizey)=[];
     disp(count);
@@ -60,7 +60,7 @@ for count=1:100
 end
 colorImage=permute(colorImage,[2,1,3]);
 OrigImage=colorImage;
-for count=1:50
+for count=1:0
     edgeImage=imgradient(rgb2gray(colorImage));
     [sizex,sizey]=size(edgeImage);
     mask2(1,:)=edgeImage(1,:);
@@ -92,7 +92,7 @@ for count=1:50
         colorImage(i,sizey)=0;
     end
     colorImage(:,sizey,:)=[];
-    Image(:,sizey)=[];
+%     Image(:,sizey)=[];
     edgeImage(:,sizey)=[];
     mask2(:,sizey)=[];
     disp(count);
@@ -100,6 +100,7 @@ for count=1:50
 %     title(size(colorImage,2));
 end
 colorImage=permute(colorImage,[2,1,3]);
+imwrite(colorImage,'../OutputImages/photobomb2.png');
 subplot(2,1,1)
 imshow(OriginalImage);
 [sizex,sizey]=size(OriginalImage);
